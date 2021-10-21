@@ -30,7 +30,7 @@ class User(models.Model):
     name = models.CharField(max_length=100, unique=True)
     # events = models.ForeignKey(
     #     Event, on_delete=models.SET_NULL, related_name='users')
-    events = models.ManyToManyField(Event)
+    events = models.ManyToManyField(Event, related_name="user_list")
 
     def __str__(self):
         return self.name
