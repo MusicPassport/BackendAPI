@@ -2,13 +2,7 @@ from django.db import models
 from django.db.models.fields import CharField, TextField
 
 # Create your models here.
-class User(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    # events = models.ForeignKey(
-    #     Event, on_delete=models.SET_NULL, related_name='users') 
 
-    def __str__(self):
-        return self.name
 
 class Event(models.Model):
     event_name = models.CharField(max_length=255)
@@ -22,16 +16,24 @@ class Event(models.Model):
     status = models.CharField(max_length=100)
     currency = models.CharField(max_length=100)
     seen = models.BooleanField(default=False)
-    users = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name='events')
+    # users = models.CharField()
+        # User, on_delete=models.SET_NULL, null=True, related_name='events')
 
     REQUIRED_FIELDS = ['name', 'city', 'start', 'end']
-    USERNAME_FIELD = 'email'
+    # USERNAME_FIELD = 'email'
 
     def get_event(self):
         return f"{self.event_name}:{self.summary}"
 
 
+class User(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    # events = models.ForeignKey(
+    #     Event, on_delete=models.SET_NULL, related_name='users')
+    events = models.ManyToManyField(Event)
+
+    def __str__(self):
+        return self.name
 
     
     
