@@ -1,0 +1,3 @@
+CREATE DATABASE wander;
+CREATE USER wanderuser WITH PASSWORD 'wander';
+GRANT ALL PRIVILEGES ON DATABASE wander TO wanderuser;
