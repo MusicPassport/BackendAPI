@@ -1,44 +1,64 @@
 from django.db import models
-from django.db.models.fields import CharField, TextField
 
 # Create your models here.
 
 
 class Event(models.Model):
-    event_name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    genre = models.CharField(max_length=100)
     summary = models.TextField()
     city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
-    eventbrite_url = models.TextField()
+    tm_url = models.TextField()
     img_url = models.TextField()
+    eventId = models.CharField(max_length=100)
     start = models.DateTimeField()
-    end = models.DateTimeField()
-    status = models.CharField(max_length=100)
-    currency = models.CharField(max_length=100)
-    seen = models.BooleanField(default=False)
+    # end = models.DateTimeField()
+    # currency = models.CharField(max_length=100)
+
+    attendees = models.ManyToManyField('users.User', related_name='attendees')
+    viewers = models.ManyToManyField('users.User', related_name='viewers')
     # users = models.CharField()
         # User, on_delete=models.SET_NULL, null=True, related_name='events')
 
-    REQUIRED_FIELDS = ['name', 'city', 'start', 'end']
+    REQUIRED_FIELDS = ['name', 'city', 'start']
     # USERNAME_FIELD = 'email'
 
     def get_event(self):
-        return f"{self.event_name}:{self.summary}"
+        return self.name
 
 
-class User(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    # events = models.ForeignKey(
-    #     Event, on_delete=models.SET_NULL, related_name='users')
-    events = models.ManyToManyField(Event, related_name="user_list")
+    def __str__(self):
+        return self.name
+  
+    
+class Venue(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    postalCode = models.IntegerField(max_length=5)
+    venueId = models.CharField(max_length=100)
+    venue_url = models.TextField()
+    img_url = models.TextField()
+
+    REQUIRED_FIELDS = ['name', 'city']
 
     def __str__(self):
         return self.name
 
-    
-    
-    
-# class Review(models.Model):
-#     user=models.ForeignKey(User, related_name='reviews', on_delete='CASCADE')
-#     body=models.TextField()
-#     upvotes=models.IntegerField()
+
+class Review(models.Model):
+    owner = models.ForeignKey(
+        'users.User', related_name='reviews', on_delete=models.CASCADE, default='')
+    title = models.CharField(max_length=100)
+    venue = models.ForeignKey(
+        Venue, related_name='reviews', on_delete=models.CASCADE)
+    body = models.TextField()
+    upvotes = models.IntegerField()
+    # downvotes = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

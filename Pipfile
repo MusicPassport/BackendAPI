@@ -11,8 +11,11 @@ whitenoise = "*"
 dj-database-url = "*"
 gunicorn = "*"
 django-cors-headers = "*"
+djoser = "*"
 
 [dev-packages]
+pylint = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.9"

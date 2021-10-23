@@ -1,40 +1,32 @@
 from rest_framework import serializers
-from .models import Event, User
-
-
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    events = serializers.HyperlinkedRelatedField(
-        view_name='event_detail',
-        many=True,
-        read_only=True
-    )
-    class Meta:
-        model = User
-        fields = ('id','name','events')
+from .models import Event, Review, Venue
 
 
 class EventSerializer(serializers.ModelSerializer):
-    user_list = UserSerializer(
+    # user_list = UserSerializer(
+    #     many=True,
+    #     read_only=True
+    # )
+    user_list = serializers.ReadOnlyField(source='owner.username')
+    class Meta:
+        model = Event
+        fields = ('id', 'name', 'genre', 'city', 'address', 'state','tm_url',
+                    'img_url', 'start', 'attendees', 'viewers', 'user_list')
+
+class VenueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Venue
+        fields = ( 'name', 'address', 'city', 'state', 'postalCode',
+                    'venueId', 'venue_url', 'img_url')
+
+
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+
+    owner = serializers.HyperlinkedRelatedField(
+        view_name='user_detail',
         many=True,
         read_only=True
     )
-
     class Meta:
-        model = Event
-        fields = ('id', 'event_name', 'summary', 'city', 'address', 'eventbrite_url',
-                    'img_url', 'start', 'end', 'status', 'currency', 'seen', 'user_list')
-
-# class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-
-#     users = serializers.HyperlinkedRelatedField(
-#         name='user_detail',
-#         many=True,
-#         read_only=True
-#     )
-
-
-#     class Meta:
-#         model = Review
-#         fields = ('id', )
+        model = Review
+        fields = ('id', 'owner', 'title', 'venue', 'body', 'upvotes' )
