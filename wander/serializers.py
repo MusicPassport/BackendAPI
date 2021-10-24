@@ -16,17 +16,23 @@ class EventSerializer(serializers.ModelSerializer):
 class VenueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venue
-        fields = ( 'name', 'address', 'city', 'state', 'postalCode',
+        fields = ( 'id','name', 'address', 'city', 'state', 'postalCode',
                     'venueId', 'venue_url', 'img_url')
 
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
 
-    owner = serializers.HyperlinkedRelatedField(
-        view_name='user_detail',
-        many=True,
+    # owner = serializers.HyperlinkedRelatedField(
+    #     view_name='user_detail',
+    #     many=True,
+    #     read_only=True
+    # )
+    venue= VenueSerializer(
+        many=False,
         read_only=True
     )
+
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Review
         fields = ('id', 'owner', 'title', 'venue', 'body', 'upvotes' )

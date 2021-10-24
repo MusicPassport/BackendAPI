@@ -8,8 +8,8 @@ class User(AbstractUser):
     email = models.EmailField(verbose_name='email', unique=True,max_length=100)
     # events = models.ForeignKey(
     #     Event, on_delete=models.SET_NULL, related_name='users')
-    attending = models.ManyToManyField('wander.Event', related_name="attending")
-    watching = models.ManyToManyField('wander.Event', related_name="viewing")
+    # attending = models.ManyToManyField('wander.Event', related_name="attendees")
+    # watching = models.ManyToManyField('wander.Event', related_name="viewers")
     dark_mode = models.BooleanField(default=False)
     zipcode = models.IntegerField(default=11111)
     # latitude=models.FloatField()
