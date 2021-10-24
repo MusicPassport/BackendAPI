@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Event, User
+from .models import Event, Venue, Review
 
 # Register your models here.
 admin.site.register(Event)
-admin.site.register(User)
+admin.site.register(Venue)
+admin.site.register(Review)
