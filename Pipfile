@@ -12,6 +12,7 @@ dj-database-url = "*"
 gunicorn = "*"
 django-cors-headers = "*"
 djoser = "*"
+boto3 = "*"
 
 [dev-packages]
 pylint = "*"

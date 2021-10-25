@@ -52,6 +52,7 @@ class Event(models.Model):
     viewers = models.ManyToManyField('users.User', related_name='viewing')
     # users = models.CharField()
     # User, on_delete=models.SET_NULL, null=True, related_name='events')
+    
 
     REQUIRED_FIELDS = ['name', 'city', 'start']
     # USERNAME_FIELD = 'email'
@@ -61,3 +62,12 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+class Memory(models.Model):
+    photo = models.ImageField(upload_to='images/', default='images/default.jpg')
+    title = models.CharField()
+    body = models.TextField()
+    owner = models.ForeignKey('users.User', related_name='memories', on_delete=models.CASCADE, default='' )
+    event = models.ForeignKey(Event, related_name='events', on_delete=models.SET_NULL, default='')
+
+    

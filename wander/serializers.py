@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Event, Review, Venue
+from .models import Event, Memory, Review, Venue
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -36,3 +36,11 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Review
         fields = ('id', 'owner', 'title', 'venue', 'body', 'upvotes' )
+
+
+class MemorySerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    event = EventSerializer( many=False, read_only=True)
+    class Meta:
+        model = Memory
+        fields = ('id', 'title', 'body', 'photo', 'owner', 'event')

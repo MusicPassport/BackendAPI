@@ -10,5 +10,8 @@ urlpatterns = [
 
     path('reviews/', views.ReviewList.as_view(), name='review_list'),
     path('reviews/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),
+
+    path('memories/', views.MemoryList.as_view(), name='memory_list'),
+    path('memories/<int:pk>', views.MemoryDetail.as_view(), name='memory_detail'),
     # path('user/<int:pk>/event/<int:pk>')
 ]
