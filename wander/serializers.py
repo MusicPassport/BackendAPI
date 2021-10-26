@@ -48,9 +48,9 @@ class VenueSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'owner', 'address', 'city', 'state', 'postalCode',
                   'venueId', 'venue_url', 'img_url', 'reviews')
 
-class MemorySerializer(serializers.HyperlinkedModelSerializer):
+class MemorySerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    event = EventSerializer( many=False, read_only=True)
+    # event = EventSerializer( many=False, read_only=True)
     class Meta:
         model = Memory
         fields = ('id', 'title', 'body', 'photo', 'owner', 'event')

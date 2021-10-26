@@ -14,6 +14,7 @@ django-cors-headers = "*"
 djoser = "*"
 boto3 = "*"
 pillow = "*"
+django-storages = "*"
 
 [dev-packages]
 pylint = "*"
