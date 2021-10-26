@@ -1,7 +1,9 @@
 from django.db import models
 
 # Create your models here.
- 
+
+
+
 class Venue(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
@@ -12,6 +14,9 @@ class Venue(models.Model):
     venue_url = models.TextField()
     img_url = models.TextField()
 
+    # reviews= models.ForeignKey(
+    #     Review, related_name='venues', on_delete=models.CASCADE, default='', null=True
+    # )
     REQUIRED_FIELDS = ['name', 'city']
 
     def __str__(self):
@@ -20,12 +25,12 @@ class Venue(models.Model):
 
 class Review(models.Model):
     owner = models.ForeignKey(
-        'users.User', related_name='reviews', on_delete=models.CASCADE, default='')
+        'users.User', related_name='reviews', on_delete=models.CASCADE, default='', null=True)
     title = models.CharField(max_length=100)
     venue = models.ForeignKey(
-        Venue, related_name='reviews', on_delete=models.CASCADE)
+        Venue, related_name='venue_reviews', on_delete=models.CASCADE, default='', null=True)
     body = models.TextField()
-    upvotes = models.IntegerField()
+    upvotes = models.IntegerField(default=0)
     # downvotes = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
 
@@ -34,6 +39,7 @@ class Review(models.Model):
 
 
 class Event(models.Model):
+    id = models.CharField(max_length=100, primary_key=True)
     name = models.CharField(max_length=255)
     genre = models.CharField(max_length=100)
     summary = models.TextField()
@@ -42,12 +48,11 @@ class Event(models.Model):
     address = models.CharField(max_length=255)
     tm_url = models.TextField()
     img_url = models.TextField()
-    eventId = models.CharField(max_length=100)
     start = models.DateTimeField()
     # end = models.DateTimeField()
     # currency = models.CharField(max_length=100)
     venue = models.ForeignKey(
-        Venue, related_name='venue_location', on_delete=models.CASCADE, default='')
+        Venue, related_name='venue_location', on_delete=models.CASCADE, default='', null=True)
     attendees = models.ManyToManyField('users.User', related_name='attending')
     viewers = models.ManyToManyField('users.User', related_name='viewing')
     # users = models.CharField()
@@ -65,9 +70,9 @@ class Event(models.Model):
 
 class Memory(models.Model):
     photo = models.ImageField(upload_to='images/', default='images/default.jpg')
-    title = models.CharField()
+    title = models.CharField(max_length=100)
     body = models.TextField()
     owner = models.ForeignKey('users.User', related_name='memories', on_delete=models.CASCADE, default='' )
-    event = models.ForeignKey(Event, related_name='events', on_delete=models.SET_NULL, default='')
+    event = models.ForeignKey(Event, related_name='events', on_delete=models.SET_NULL, null=True, default='')
 
     

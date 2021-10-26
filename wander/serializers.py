@@ -10,33 +10,41 @@ class EventSerializer(serializers.ModelSerializer):
     user_list = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Event
-        fields = ('id', 'name', 'genre', 'city', 'address', 'state','tm_url',
+        fields = ('id', 'name', 'genre', 'city', 'address', 'state','tm_url','venue',
                     'img_url', 'start', 'attendees', 'viewers', 'user_list')
 
-class VenueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Venue
-        fields = ( 'id','name', 'address', 'city', 'state', 'postalCode',
-                    'venueId', 'venue_url', 'img_url')
 
 
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
 
-    # owner = serializers.HyperlinkedRelatedField(
-    #     view_name='user_detail',
-    #     many=True,
+class ReviewSerializer(serializers.ModelSerializer):
+
+    # venue= VenueSerializer(
+    #     many=False,
     #     read_only=True
     # )
-    venue= VenueSerializer(
-        many=False,
+
+    # venue_id = serializers.PrimaryKeyRelatedField(
+    #     queryset = Venue.objects.all(),
+    #     source='venue'
+    # )
+
+    owner = serializers.ReadOnlyField(source='owner.username')
+    
+    class Meta:
+        model = Review
+        fields = ('id','owner', 'title', 'venue', 'body')
+
+
+class VenueSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(
+        many=True,
         read_only=True
     )
 
-    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
-        model = Review
-        fields = ('id', 'owner', 'title', 'venue', 'body', 'upvotes' )
-
+        model = Venue
+        fields = ('id', 'name', 'address', 'city', 'state', 'postalCode',
+                  'venueId', 'venue_url', 'img_url', 'reviews')
 
 class MemorySerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
