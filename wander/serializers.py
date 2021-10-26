@@ -1,9 +1,16 @@
 from rest_framework import serializers
 from .models import Event, Memory, Review, Venue
+# from users.serializers import UserSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
-    # user_list = UserSerializer(
+    # attending = UserSerializer(
+    #     data={'id', 'username'},
+    #     many=True,
+    #     read_only=True
+    # )
+    # viewing = UserSerializer(
+    #     data = {'id','username'},
     #     many=True,
     #     read_only=True
     # )
