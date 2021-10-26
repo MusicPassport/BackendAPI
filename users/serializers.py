@@ -4,12 +4,12 @@ from . import models
 
 
 class UserCreateSerializer(UserCreateSerializer):
-    events = serializers.HyperlinkedRelatedField(
-        view_name='event_detail',
-        many=True,
-        read_only=True
-    )
+    # events = serializers.HyperlinkedRelatedField(
+    #     view_name='event_detail',
+    #     many=True,
+    #     read_only=True
+    # )
 
     class Meta(UserCreateSerializer.Meta):
         model = models.User
-        fields = ('name', 'password', 'email', 'attending', 'watching', 'dark_mode', 'zipcode')
+        fields = ('id','username', 'password', 'email')

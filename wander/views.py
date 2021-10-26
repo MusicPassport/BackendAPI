@@ -1,7 +1,7 @@
 from os import readv
 from django.db.models.query import QuerySet
 from rest_framework import generics
-from .serializers import EventSerializer, ReviewSerializer, VenueSerializer, IemorymageSerializer
+from .serializers import EventSerializer, ReviewSerializer, VenueSerializer, MemorySerializer
 from .models import Event, Venue, Review, Memory
 
 # Create your views here.
@@ -31,9 +31,9 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class MemoryList(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+    queryset = Memory.objects.all()
+    serializer_class = MemorySerializer
 
 class MemoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+    queryset = Memory.objects.all()
+    serializer_class = MemorySerializer
