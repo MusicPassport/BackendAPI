@@ -13,10 +13,13 @@ class Venue(models.Model):
     venueId = models.CharField(max_length=100)
     venue_url = models.TextField()
     img_url = models.TextField()
+    owner = models.ForeignKey(
+        'users.User', related_name='venues', on_delete=models.CASCADE, default='')
 
     # reviews= models.ForeignKey(
     #     Review, related_name='venues', on_delete=models.CASCADE, default='', null=True
     # )
+
     REQUIRED_FIELDS = ['name', 'city']
 
     def __str__(self):
@@ -25,13 +28,12 @@ class Venue(models.Model):
 
 class Review(models.Model):
     owner = models.ForeignKey(
-        'users.User', related_name='reviews', on_delete=models.CASCADE, default='', null=True)
+        'users.User', related_name='reviews', on_delete=models.CASCADE, default='')
     title = models.CharField(max_length=100)
     venue = models.ForeignKey(
         Venue, related_name='venue_reviews', on_delete=models.CASCADE, default='', null=True)
     body = models.TextField()
     upvotes = models.IntegerField(default=0)
-    # downvotes = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -49,12 +51,12 @@ class Event(models.Model):
     tm_url = models.TextField()
     img_url = models.TextField()
     start = models.DateTimeField()
-    # end = models.DateTimeField()
-    # currency = models.CharField(max_length=100)
     venue = models.ForeignKey(
         Venue, related_name='venue_location', on_delete=models.CASCADE, default='', null=True)
     attendees = models.ManyToManyField('users.User', related_name='attending')
     viewers = models.ManyToManyField('users.User', related_name='viewing')
+    owner = models.ForeignKey(
+        'users.User', related_name='events', on_delete=models.CASCADE, default='')
     # users = models.CharField()
     # User, on_delete=models.SET_NULL, null=True, related_name='events')
     

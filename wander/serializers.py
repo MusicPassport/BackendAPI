@@ -7,11 +7,12 @@ class EventSerializer(serializers.ModelSerializer):
     #     many=True,
     #     read_only=True
     # )
-    user_list = serializers.ReadOnlyField(source='owner.username')
+
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Event
-        fields = ('id', 'name', 'genre', 'city', 'address', 'state','tm_url','venue',
-                    'img_url', 'start', 'attendees', 'viewers', 'user_list')
+        fields = ('id', 'name', 'owner', 'genre', 'city', 'address', 'state','tm_url','venue',
+                    'img_url', 'start', 'attendees', 'viewers','owner')
 
 
 
@@ -41,9 +42,10 @@ class VenueSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Venue
-        fields = ('id', 'name', 'address', 'city', 'state', 'postalCode',
+        fields = ('id', 'name', 'owner', 'address', 'city', 'state', 'postalCode',
                   'venueId', 'venue_url', 'img_url', 'reviews')
 
 class MemorySerializer(serializers.HyperlinkedModelSerializer):
