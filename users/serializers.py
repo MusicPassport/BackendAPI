@@ -2,7 +2,7 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from . import models
 # from '../wander/serializers.py' import EventSerializer
-from wander.serializers import EventSerializer
+from wander.serializers import EventSerializer, MemorySerializer
 
 
 class UserCreateSerializer(UserCreateSerializer, serializers.ModelSerializer):
@@ -20,6 +20,10 @@ class UserCreateSerializer(UserCreateSerializer, serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+    memories = MemorySerializer(
+        many=True,
+        read_only=True
+    )
     class Meta(UserCreateSerializer.Meta):
         model = models.User
-        fields = ('id','username', 'password', 'email','attending','viewing','events')
+        fields = ('id','username', 'password', 'email','attending','viewing','events','memories')

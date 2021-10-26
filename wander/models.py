@@ -53,8 +53,8 @@ class Event(models.Model):
     start = models.DateTimeField()
     venue = models.ForeignKey(
         Venue, related_name='venue_location', on_delete=models.CASCADE, default='', null=True)
-    attendees = models.ManyToManyField('users.User', related_name='attending')
-    viewers = models.ManyToManyField('users.User', related_name='viewing')
+    attendees = models.ManyToManyField('users.User', related_name='attending', blank=True)
+    viewers = models.ManyToManyField('users.User', related_name='viewing', blank=True)
     owner = models.ForeignKey(
         'users.User', related_name='events', on_delete=models.CASCADE, default='')
     # users = models.CharField()
