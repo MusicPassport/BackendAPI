@@ -50,7 +50,7 @@ class Event(models.Model):
     address = models.CharField(max_length=255)
     tm_url = models.TextField()
     img_url = models.TextField()
-    start = models.DateTimeField()
+    start = models.CharField(max_length=100)
     venue = models.ForeignKey(
         Venue, related_name='venue_location', on_delete=models.CASCADE, default='', null=True)
     attendees = models.ManyToManyField('users.User', related_name='attending', blank=True)
@@ -61,7 +61,7 @@ class Event(models.Model):
     # User, on_delete=models.SET_NULL, null=True, related_name='events')
     
 
-    REQUIRED_FIELDS = ['name', 'city', 'start']
+    REQUIRED_FIELDS = ['name', 'city']
     # USERNAME_FIELD = 'email'
 
     def get_event(self):
